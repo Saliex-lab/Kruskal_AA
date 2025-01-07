@@ -6,6 +6,11 @@
 *.userosscache
 *.sln.docstates
 
+# Fichiers générés par IntelliJ IDEA
+.idea/
+*.iml
+out/
+
 # Build Results
 bin/
 obj/
