@@ -2,9 +2,9 @@ package Conteneurs;
 
 public class Liste<E> {
 
-    private class Node<E> {
+    private class Node {
         E m_data;
-        Node<E> next;
+        Node next;
 
         Node(E data) {
             m_data = data;
@@ -12,7 +12,7 @@ public class Liste<E> {
         }
     }
 
-    private Node<E> m_head;
+    private Node m_head;
 
     private int m_size = 0;
 
@@ -23,12 +23,12 @@ public class Liste<E> {
     // Add data in list
     public void add(E data) {
 
-        Node<E> cell = new Node<E>(data);
+        Node cell = new Node(data);
 
         if (m_head == null) {
             m_head = cell;
         } else {
-            Node<E> t_cell = m_head;
+            Node t_cell = m_head;
 
             while (t_cell.next != null) {
                 t_cell = t_cell.next;
@@ -45,7 +45,7 @@ public class Liste<E> {
         if (idx >= 0 && idx < m_size) {
 
             int t_idx = 0;
-            Node<E> t_cell = m_head;
+            Node t_cell = m_head;
 
             while (t_idx != idx) {
                 t_cell = t_cell.next;
