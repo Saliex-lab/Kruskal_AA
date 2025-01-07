@@ -1,4 +1,4 @@
-package Liste;
+package Conteneurs;
 
 public class Liste<T> {
     
