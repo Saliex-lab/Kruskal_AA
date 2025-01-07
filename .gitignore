@@ -1,10 +1,15 @@
-# Fichiers générés par Visual Studio
+# Fichiers générés par Visual Studio Code
 .vscode/
 .vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
+
+# Fichiers générés par IntelliJ IDEA
+.idea/
+*.iml
+out/
 
 # Build Results
 bin/
