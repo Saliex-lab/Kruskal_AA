@@ -1,77 +1,80 @@
 package Conteneurs;
 
-public class Liste<T> {
+public class Liste<E> {
 
-    private T head;
-    private Liste<T> suivant; 
+    private class Node<E> {
+        E m_data;
+        Node<E> next;
 
-    public Liste(T element) {
-        this.head = element;
-        this.suivant = null;
+        Node(E data) {
+            m_data = data;
+            next = null;
+        }
     }
 
-    public void ajouter(T element) {
-        if (this.suivant == null) {
-            this.suivant = new Liste<>(element);
+    private Node<E> m_head;
+
+    private int m_size = 0;
+
+    public Liste() {
+        m_head = null;
+    }
+
+    // Add data in list
+    public void add(E data) {
+
+        Node<E> cell = new Node<E>(data);
+
+        if (m_head == null) {
+            m_head = cell;
         } else {
-            this.suivant.ajouter(element);
+            Node<E> t_cell = m_head;
+
+            while (t_cell.next != null) {
+                t_cell = t_cell.next;
+            }
+
+            t_cell.next = cell;
+        }
+        m_size++;
+    }
+
+    // Get data
+    public E get(int idx) throws Exception {
+
+        if (idx >= 0 && idx < m_size) {
+
+            int t_idx = 0;
+            Node<E> t_cell = m_head;
+
+            while (t_idx != idx) {
+                t_cell = t_cell.next;
+                t_idx++;
+            }
+            return t_cell.m_data;
+        } else {
+            throw new Exception("Out of Range Get()");
         }
     }
 
-    public void afficher() {
-        System.out.println(this.head);
-        if (this.suivant != null) {
-            this.suivant.afficher();
-        }
-    }
-    
-    public T get(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Index doit être positif");
-        }
-    
-        Liste<T> current = this;
-        int currentIndex = 0;
-    
-        while (current != null) {
-            if (currentIndex == index) {
-                return current.head;
-            }
-            current = current.suivant;
-            currentIndex++;
-        }
-    
-        throw new IndexOutOfBoundsException("Index hors des limites de la liste");
+    // Get size
+    public int lenght() {
+        return m_size;
     }
 
-    public void supprimer(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Index doit être positif");
-        }
-    
-        if (index == 0) {
-            if (this.suivant != null) {
-                this.head = this.suivant.head;
-                this.suivant = this.suivant.suivant;
-            } else {
-                throw new IllegalStateException("Impossible de supprimer l'unique élément");
+    //Print List
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < m_size; i++) {
+            sb.append('[');
+            try {
+                sb.append(this.get(i).toString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return;
+            sb.append(']');
         }
-    
-        Liste<T> current = this;
-        int currentIndex = 0;
-    
-        while (current.suivant != null) {
-            if (currentIndex == index - 1) {
-                
-                current.suivant = current.suivant.suivant;
-                return;
-            }
-            current = current.suivant;
-            currentIndex++;
-        }
-    
-        throw new IndexOutOfBoundsException("Index hors des limites de la liste");
+        return sb.toString();
     }
 }
