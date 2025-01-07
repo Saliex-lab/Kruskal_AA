@@ -105,6 +105,9 @@ public class KruskalM {
         return PPAR;
     }
 
+    // TODO : Utilisation de FileManager pour la lecture et l'écriture de fichiers.
+    // TODO : Construction du plus petit arbre recouvrant à partir de la liste PPAR.
+    // TODO : Potentiellement refaire l'algorithme de Kruskal en utilisant directement le PPAR et pas une liste du PPAR.
     public static void main(String[] args) {
         System.out.println("KruskalM");
     }
