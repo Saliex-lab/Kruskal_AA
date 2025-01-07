@@ -24,6 +24,7 @@ public class Liste<T> {
             this.suivant.afficher();
         }
     }
+    
     public T get(int index) {
         if (index < 0) {
             throw new IndexOutOfBoundsException("Index doit être positif");
