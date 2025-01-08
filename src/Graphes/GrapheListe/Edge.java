@@ -1,6 +1,6 @@
 package Graphes.GrapheListe;
 
-public class Edge {
+public class Edge implements Comparable<Edge> {
     private Vertex _successor; 
     private int _weight;      
 
@@ -26,5 +26,19 @@ public class Edge {
 
     public void setWeight(int weight) {
         this._weight = weight;
+    }
+
+    //Sort with weight
+    @Override
+    public int compareTo(Edge other) {
+        return Integer.compare(this._weight, other._weight);
+    }
+    
+    @Override
+    public String toString() {
+        return "Edge{" +
+               "successor=" + (_successor != null ? _successor.GetNumber() : "null") +
+               ", weight=" + _weight +
+               '}';
     }
 }

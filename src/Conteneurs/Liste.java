@@ -2,7 +2,7 @@ package Conteneurs;
 
 public class Liste<E> {
 
-    private class Node {
+    protected class Node {
         E m_data;
         Node next;
 
@@ -12,9 +12,9 @@ public class Liste<E> {
         }
     }
 
-    private Node m_head;
+    protected Node m_head;
 
-    private int m_size = 0;
+    protected int m_size = 0;
 
     public Liste() {
         m_head = null;
@@ -56,11 +56,26 @@ public class Liste<E> {
             throw new Exception("Out of Range Get()");
         }
     }
+    
+    // Set size
+    public void set(int idx, E data) throws Exception {
+        if (idx >= 0 && idx < m_size) {
+            Node current = m_head;
+            for (int i = 0; i < idx; i++) {
+                current = current.next;
+            }
+            current.m_data = data;
+        } else {
+            throw new Exception("Out of Range Set()");
+        }
+    }
+    
 
     // Get size
     public int lenght() {
         return m_size;
     }
+
 
     //Print List
     @Override

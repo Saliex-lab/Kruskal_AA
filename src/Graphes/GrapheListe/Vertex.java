@@ -2,7 +2,7 @@ package Graphes.GrapheListe;
 
 import Conteneurs.Liste;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex>{
     private int _number;
     private Liste<Edge> _edges = new Liste<>(); 
 
@@ -20,5 +20,18 @@ public class Vertex {
     }
     public Liste<Edge> GetEdges() {
         return _edges;
+    }
+
+    @Override
+    public int compareTo(Vertex other) {
+        return Integer.compare(this._number, other._number);
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+               "number=" + _number +
+               ", edges=" + _edges +
+               '}';
     }
 }

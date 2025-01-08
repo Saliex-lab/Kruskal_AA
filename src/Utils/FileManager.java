@@ -1,4 +1,4 @@
-package FileManager;
+package Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +26,7 @@ public class FileManager {
                 graph.add(line); 
             }
             sc.close();
+            System.out.println("Successfully read to the file.");
         } catch (FileNotFoundException e) {
             System.out.println("File " + infile + " not found.");
             e.printStackTrace();

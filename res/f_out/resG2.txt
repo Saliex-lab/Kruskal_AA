@@ -1,0 +1,8 @@
+LE GRAPHE EST CONNEXE
+22
+(1 -> 2 : 3)
+(1 -> 4 : 4)
+(3 -> 4 : 1)
+(4 -> 6 : 9)
+(5 -> 6 : 5)
+Temps CPU : 0 ms
