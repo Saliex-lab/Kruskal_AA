@@ -5,4 +5,4 @@ LE GRAPHE EST CONNEXE
 (3 -> 4 : 1)
 (4 -> 6 : 9)
 (5 -> 6 : 5)
-Temps CPU : 0 ms
+Temps CPU : 59200 ns

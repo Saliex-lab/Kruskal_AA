@@ -181,6 +181,6 @@ public class GrapheListe {
             FileManager.sb.append(formattedEdges.get(i)).append("\n");
         }
 
-        FileManager.sb.append("Temps CPU : ").append(computationTime).append(" ms\n");
+        FileManager.sb.append("Temps CPU : ").append(computationTime).append(" ns\n");
     }
 }

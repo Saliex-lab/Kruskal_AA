@@ -6,11 +6,11 @@ public class Timer {
     private static long endTime;
 
     public static void start() {
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
     }
 
     public static void stop() {
-        endTime = System.currentTimeMillis();
+        endTime = System.nanoTime();
     }
 
     public static long getElapsedTime() {
