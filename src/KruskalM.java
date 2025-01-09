@@ -9,19 +9,19 @@ public class KruskalM {
         // Matrice d'adjacence du graphe
         GrapheMatrice MatriceAdjacence;
         // Représentation du plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR
-        Liste<int[]> PPAR = null;
+        Liste<int[]> PPAR;
         System.out.println("KruskalM");
 
         switch (args.length) {
             case 1:
                 MatriceAdjacence = FileManager.GetDataFile(args[0]);
                 System.out.println("Matrice d'adjacence du graphe :");
+                assert MatriceAdjacence != null;
                 MatriceAdjacence.printMatrix();
                 Timer.start();
-                assert MatriceAdjacence != null;
                 PPAR = MatriceAdjacence.kruskal();
                 Timer.stop();
-
+                MatriceAdjacence.printPPAR(PPAR);
                 break;
 
             case 2:

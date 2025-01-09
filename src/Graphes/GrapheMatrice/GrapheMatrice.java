@@ -45,9 +45,19 @@ public class GrapheMatrice {
         } else {
             System.out.println("LE GRAPHE N'EST PAS CONNEXE.");
         }
+        System.out.println("POIDS DE L'ARBRE : " + getPoids(PPAR));
         for (int i = 0; i < PPAR.lenght(); i++) {
             System.out.println("(" + PPAR.get(i)[0]+1 + " -> " + PPAR.get(i)[1]+1 + " : " + MatriceAdjacence[PPAR.get(i)[0]][PPAR.get(i)[1]] + ")");
         }
+    }
+
+    // Calcule le poids de l'arbre recouvrant à partir de la liste des aretes dans PPAR
+    private Object getPoids(Liste<int[]> ppar) throws Exception {
+        int weight = 0;
+        for (int i = 0; i < ppar.lenght(); i++) {
+            weight += MatriceAdjacence[ppar.get(i)[0]][ppar.get(i)[1]];
+        }
+        return weight;
     }
 
     // Vérifie si le graphe est connexe à partir de la liste des aretes dans PPAR
@@ -98,37 +108,45 @@ public class GrapheMatrice {
     }
 
     // Cherche un cycle dans la liste du plus petit arbre recouvrant en cours de construction (partie récursive)
-    private boolean chercheCycleRec(Liste<int[]> liste, int v, boolean[] visited, int parent) throws Exception {
-        visited[v] = true;
-        for (int i = 0; i < NmbSommets; i++) {
-            if (MatriceAdjacence[v][i] != 0) {
-                if (!visited[i]) {
-                    if (chercheCycleRec(liste, i, visited, v)) {
-                        return true;
-                    }
-                } else if (i != parent) {
-                    return true;
-                }
+    private Liste<int[]> chercheCycleRec(Liste<int[]> Liste, int sommet, boolean[] visited, int sommetCible, Liste<int[]> cycleListe) throws Exception {
+        visited[sommet] = true;
+        if (visited[sommetCible]) {
+            cycleListe.add(new int[]{sommet, sommetCible});
+            return cycleListe;
+        }
+        for (int i = 0; i < Liste.lenght() - 1; i++) {
+            int[] arete = Liste.get(i);
+            if (arete[0] == sommet && !visited[arete[1]]) {
+                cycleListe.add(arete);
+                Liste = chercheCycleRec(Liste, arete[1], visited, sommetCible, cycleListe);
+            } else if (arete[1] == sommet && !visited[arete[0]]) {
+                cycleListe.add(arete);
+                Liste = chercheCycleRec(Liste, arete[0], visited, sommetCible, cycleListe);
             }
         }
-        return false;
+        return new Liste<>();
     }
 
     // Cherche un cycle dans la liste du plus petit arbre recouvrant en cours de construction
-    private Liste<int[]> chercheCycle(Liste<int[]> liste, int i, int j) throws Exception {
+    private Liste<int[]> chercheCycle(Liste<int[]> PPAR, int i, int j) throws Exception {
         boolean[] visited = new boolean[NmbSommets];
-        if (chercheCycleRec(liste, i, visited, -1)) {
-            int[] lourd = getAreteLourde(liste);
-            return removeAreteLourde(liste, lourd);
+        for (int k = 0; k < NmbSommets; k++) {
+            visited[k] = false;
         }
-        return liste;
+        Liste<int[]> cycleListe = new Liste<>();
+        cycleListe = chercheCycleRec(PPAR, i, visited, j, cycleListe);
+        if (cycleListe.lenght() > 0) {
+            int[] lourd = getAreteLourde(cycleListe);
+            return removeAreteLourde(PPAR, lourd);
+        }
+        return PPAR;
     }
 
     // Algorithme de Kruskal, voir le rapport pour plus d'informations.
     public Liste<int[]> kruskal() throws Exception {
         // Liste qui représente le plus petit arbre recouvrant. Chaque élément est un tableau de deux entiers représentant les sommets de l'arête.
         // Le poids de l'arête est stocké dans la matrice d'adjacence.
-        Liste<int[]> PPAR = new Liste<int[]>();
+        Liste<int[]> PPAR = new Liste<>();
         // Le graphe est non orienté, on ne prend que les arêtes de la moitié supérieure de la matrice d'adjacence.
         for (int i = 0; i < NmbSommets; i++) {
             for (int j = i + 1; j < NmbSommets; j++) {
@@ -143,7 +161,6 @@ public class GrapheMatrice {
 
     // Ajoute une arête entre deux sommets avec un poids donné
     public void add(int index1, int index2, int value) throws Exception {
-        System.out.println("Ajout de l'arête (" + (index1+1) + " -> " + (index2+1) + ") de poids " + value);
         if (index1 < 0 || index2 < 0 || index1 >= NmbSommets || index2 >= NmbSommets) {
             throw new ArrayIndexOutOfBoundsException("Invalid index: " + index1 + ", " + index2);
         }
