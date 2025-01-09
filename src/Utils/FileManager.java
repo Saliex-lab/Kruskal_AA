@@ -39,26 +39,26 @@ public class FileManager {
 
     public static GrapheMatrice GetDataFile(String infile) {
         try {
-            File test = new File("res\\f_in\\" + infile + ".txt");
+            File test = new File("../res/f_in/" + infile + ".txt");
             sc = new Scanner(test);
             GrapheMatrice graphe = null;
             if (sc.hasNextInt()) {
                 int line = sc.nextInt();
                 graphe = new GrapheMatrice(line);
             }
-            int index = 0;
+            int index = sc.nextInt();
             while (sc.hasNextInt()) {
                 int sommet = sc.nextInt();
                 int poids = 0;
-                if (sommet == 0 && sc.hasNextInt()) {
+                if (sommet != 0 && sc.hasNextInt()) {
                     poids = sc.nextInt();
                 }
                 assert graphe != null;
                 if (sommet != 0) {
                     assert poids != 0;
-                    graphe.add(index, sommet, poids);
-                } else {
-                    index++;
+                    graphe.add(index - 1, sommet - 1, poids);
+                } else if (sc.hasNextInt()){
+                    index = sc.nextInt();
                 }
             }
             sc.close();

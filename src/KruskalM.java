@@ -14,6 +14,13 @@ public class KruskalM {
 
         switch (args.length) {
             case 1:
+                MatriceAdjacence = FileManager.GetDataFile(args[0]);
+                System.out.println("Matrice d'adjacence du graphe :");
+                MatriceAdjacence.printMatrix();
+                Timer.start();
+                assert MatriceAdjacence != null;
+                PPAR = MatriceAdjacence.kruskal();
+                Timer.stop();
 
                 break;
 
