@@ -9,12 +9,25 @@ public class GrapheMatrice {
     private int[][] MatriceAdjacence;
 
     // Constructeur avec une matrice d'adjacence vide
-    public GrapheMatrice(int NombreSommets) throws Exception {
-        this.NmbSommets = NombreSommets;
-        MatriceAdjacence = new int[NombreSommets][NombreSommets];
-        for (int i = 0; i < NombreSommets; i++) {
-            for (int j = 0; j < NombreSommets; j++) {
+    public GrapheMatrice(Liste<Integer> _graph) throws Exception {
+        this.NmbSommets = _graph.get(0);
+        MatriceAdjacence = new int[this.NmbSommets][this.NmbSommets];
+        for (int i = 0; i < this.NmbSommets; i++) {
+            for (int j = 0; j < this.NmbSommets; j++) {
                 MatriceAdjacence[i][j] = 0;
+            }
+        }
+        if (this.NmbSommets > 0) {
+            int index = 1;
+            while (index < _graph.lenght()) {
+                int sommet = _graph.get(index++);
+                while (index < _graph.lenght()) {
+                    int connexe = _graph.get(index++);
+                    if (connexe == 0) break;
+                    int poids = _graph.get(index++);
+                    MatriceAdjacence[sommet - 1][connexe - 1] = poids;
+                    MatriceAdjacence[connexe - 1][sommet - 1] = poids;
+                }
             }
         }
     }
@@ -176,15 +189,7 @@ public class GrapheMatrice {
         return PPAR;
     }
 
-    // Ajoute une arête entre deux sommets avec un poids donné
-    public void add(int index1, int index2, int value) throws Exception {
-        if (index1 < 0 || index2 < 0 || index1 >= NmbSommets || index2 >= NmbSommets) {
-            throw new ArrayIndexOutOfBoundsException("Invalid index: " + index1 + ", " + index2);
-        }
-        MatriceAdjacence[index1][index2] = value;
-        MatriceAdjacence[index2][index1] = value;
-    }
-
+    // Affiche le résultat de l'algorithme de Kruskal
     public String printResult(Liste<int[]> ppar, long elapsedTime) throws Exception {
         StringBuilder out = new StringBuilder();
         if (IsConnexe(ppar)) {

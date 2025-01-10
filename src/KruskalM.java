@@ -6,6 +6,7 @@ import Utils.Timer;
 public class KruskalM {
 
     public static void main(String[] args) throws Exception {
+        Liste<Integer>_graph = new Liste<>();
         // Matrice d'adjacence du graphe
         GrapheMatrice MatriceAdjacence;
         // Représentation du plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR
@@ -14,9 +15,9 @@ public class KruskalM {
 
         switch (args.length) {
             case 1:
-                MatriceAdjacence = FileManager.GetDataFile(args[0]);
+                FileManager.GetDataFile(_graph, args[0]);
+                MatriceAdjacence = new GrapheMatrice(_graph);
                 System.out.println("Matrice d'adjacence du graphe :");
-                assert MatriceAdjacence != null;
                 MatriceAdjacence.printMatrix();
                 Timer.start();
                 PPAR = MatriceAdjacence.kruskal();
@@ -26,8 +27,8 @@ public class KruskalM {
                 break;
 
             case 2:
-                MatriceAdjacence = FileManager.GetDataFile(args[0]);
-                assert MatriceAdjacence != null;
+                FileManager.GetDataFile(_graph, args[0]);
+                MatriceAdjacence = new GrapheMatrice(_graph);
                 String out;
                 Timer.start();
                 PPAR = MatriceAdjacence.kruskal();
