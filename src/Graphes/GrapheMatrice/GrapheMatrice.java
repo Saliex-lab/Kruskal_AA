@@ -207,7 +207,7 @@ public class GrapheMatrice {
         } else {
             FileManager.sb.append("LE GRAPHE N'EST PAS CONNEXE.\n");
         }
-        FileManager.sb.append("POIDS DE L'ARBRE : ").append(getPoids(PPAR)).append("\n");
+        FileManager.sb.append(getPoids(PPAR)).append("\n");
         for (int i = 0; i < PPAR.lenght(); i++) {
             FileManager.sb.append("(")
                     .append(PPAR.get(i)[0] + 1)
@@ -217,6 +217,6 @@ public class GrapheMatrice {
                     .append(MatriceAdjacence[PPAR.get(i)[0]][PPAR.get(i)[1]])
                     .append(")\n");
         }
-        FileManager.sb.append("TEMPS D'EXÉCUTION : ").append(Timer.getElapsedTime()).append(" MS\n");
+        FileManager.sb.append("TEMPS CPU : ").append(Timer.getElapsedTime()).append(" ns\n");
     }
 }
