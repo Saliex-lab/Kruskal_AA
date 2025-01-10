@@ -2,18 +2,18 @@ package Utils;
 
 public class Timer {
 
-    private static long startTime;
-    private static long endTime;
+    private static long _startTime;
+    private static long _endTime;
 
     public static void start() {
-        startTime = System.nanoTime();
+        _startTime = System.nanoTime();
     }
 
     public static void stop() {
-        endTime = System.nanoTime();
+        _endTime = System.nanoTime();
     }
 
     public static long getElapsedTime() {
-        return endTime - startTime;
+        return _endTime - _startTime;
     }
 }
