@@ -1,7 +1,6 @@
 import Conteneurs.Liste;
 import Graphes.GrapheMatrice.GrapheMatrice;
 import Utils.FileManager;
-import Utils.Timer;
 
 public class KruskalM {
 
@@ -9,33 +8,20 @@ public class KruskalM {
         Liste<Integer>_graph = new Liste<>();
         // Matrice d'adjacence du graphe
         GrapheMatrice MatriceAdjacence;
-        // Représentation du plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR
-        Liste<int[]> PPAR;
-        System.out.println("KruskalM");
 
         switch (args.length) {
             case 1:
                 FileManager.GetDataFile(_graph, args[0]);
                 MatriceAdjacence = new GrapheMatrice(_graph);
-                System.out.println("Matrice d'adjacence du graphe :");
-                MatriceAdjacence.printMatrix();
-                Timer.start();
-                PPAR = MatriceAdjacence.kruskal();
-                Timer.stop();
-                MatriceAdjacence.printPPAR(PPAR);
-                System.out.println("Temps d'exécution : " + Timer.getElapsedTime() + " ms");
+                MatriceAdjacence.kruskal();
+                System.out.println(FileManager.sb.toString());
                 break;
 
             case 2:
                 FileManager.GetDataFile(_graph, args[0]);
                 MatriceAdjacence = new GrapheMatrice(_graph);
-                String out;
-                Timer.start();
-                PPAR = MatriceAdjacence.kruskal();
-                Timer.stop();
-                out = MatriceAdjacence.printResult(PPAR, Timer.getElapsedTime());
-                FileManager.SetDataFile(args[1], out);
-
+                MatriceAdjacence.kruskal();
+                FileManager.SetDataFile(args[1]);
                 break;
 
             default:

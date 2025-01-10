@@ -1,12 +1,16 @@
 package Graphes.GrapheMatrice;
 
 import Conteneurs.Liste;
+import Utils.FileManager;
+import Utils.Timer;
 
 public class GrapheMatrice {
     // Nombre de sommets du graphe
     private int NmbSommets;
     // Matrice d'adjacence du graphe. Utilisation d'un tableau à deux dimensions pour représenter la matrice.
     private int[][] MatriceAdjacence;
+    // Représentation du plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR
+    Liste<int[]> PPAR;
 
     // Constructeur avec une matrice d'adjacence vide
     public GrapheMatrice(Liste<Integer> _graph) throws Exception {
@@ -35,23 +39,23 @@ public class GrapheMatrice {
     // Affiche la matrice d'adjacence
     public void printMatrix() throws Exception {
         for (int k = 0; k < NmbSommets * 5 + 1; k++) {
-            System.out.print("-");
+            FileManager.sb.append("-");
         }
-        System.out.println();
+        FileManager.sb.append("\n");
         for (int i = 0; i < NmbSommets; i++) {
-            System.out.print("|");
+            FileManager.sb.append("|");
             for (int j = 0; j < NmbSommets; j++) {
-                System.out.printf("%4d|", MatriceAdjacence[i][j]);
+                FileManager.sb.append(String.format("%4d|", MatriceAdjacence[i][j]));
             }
-            System.out.println();
+            FileManager.sb.append("\n");
             for (int k = 0; k < NmbSommets * 5 + 1; k++) {
-                System.out.print("-");
+                FileManager.sb.append("-");
             }
-            System.out.println();
+            FileManager.sb.append("\n");
         }
     }
 
-    // Affiche le plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR.
+    // Affiche le plus petit arbre recouvrant par le biais de la liste des aretes dans PPAR. (Usage interne pour debug)
     public void printPPAR(Liste<int[]> PPAR) throws Exception {
         if (IsConnexe(PPAR)) {
             System.out.println("LE GRAPHE EST CONNEXE.");
@@ -172,7 +176,8 @@ public class GrapheMatrice {
     }
 
     // Algorithme de Kruskal, voir le rapport pour plus d'informations.
-    public Liste<int[]> kruskal() throws Exception {
+    public void kruskal() throws Exception {
+        Timer.start();
         // Liste qui représente le plus petit arbre recouvrant. Chaque élément est un tableau de deux entiers représentant les sommets de l'arête.
         // Le poids de l'arête est stocké dans la matrice d'adjacence.
         Liste<int[]> PPAR = new Liste<>();
@@ -186,28 +191,32 @@ public class GrapheMatrice {
                 }
             }
         }
-        return PPAR;
+        this.PPAR = PPAR;
+        Timer.stop();
+
+        printResult();
     }
 
-    // Affiche le résultat de l'algorithme de Kruskal
-    public String printResult(Liste<int[]> ppar, long elapsedTime) throws Exception {
-        StringBuilder out = new StringBuilder();
-        if (IsConnexe(ppar)) {
-            out.append("LE GRAPHE EST CONNEXE.\n");
+    // Génère l'affichage du résultat de l'algorithme de Kruskal
+    public void printResult() throws Exception {
+        FileManager.sb.setLength(0);
+        FileManager.sb.append("Matrice d'adjacence du graphe :\n");
+        printMatrix();
+        if (IsConnexe(PPAR)) {
+            FileManager.sb.append("LE GRAPHE EST CONNEXE.\n");
         } else {
-            out.append("LE GRAPHE N'EST PAS CONNEXE.\n");
+            FileManager.sb.append("LE GRAPHE N'EST PAS CONNEXE.\n");
         }
-        out.append("POIDS DE L'ARBRE : ").append(getPoids(ppar)).append("\n");
-        for (int i = 0; i < ppar.lenght(); i++) {
-            out.append("(")
-                    .append(ppar.get(i)[0] + 1)
+        FileManager.sb.append("POIDS DE L'ARBRE : ").append(getPoids(PPAR)).append("\n");
+        for (int i = 0; i < PPAR.lenght(); i++) {
+            FileManager.sb.append("(")
+                    .append(PPAR.get(i)[0] + 1)
                     .append(" -> ")
-                    .append(ppar.get(i)[1] + 1)
+                    .append(PPAR.get(i)[1] + 1)
                     .append(" : ")
-                    .append(MatriceAdjacence[ppar.get(i)[0]][ppar.get(i)[1]])
+                    .append(MatriceAdjacence[PPAR.get(i)[0]][PPAR.get(i)[1]])
                     .append(")\n");
         }
-        out.append("TEMPS D'EXÉCUTION : ").append(elapsedTime).append(" MS\n");
-        return out.toString();
+        FileManager.sb.append("TEMPS D'EXÉCUTION : ").append(Timer.getElapsedTime()).append(" MS\n");
     }
 }

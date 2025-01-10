@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import Conteneurs.Liste;
-import Graphes.GrapheMatrice.GrapheMatrice;
 
 public class FileManager {
+
+    // Pour le cas dossier bin
+    //../res/f_in/
+    //../res/f_out/
 
     public static StringBuilder sb = new StringBuilder();
 
@@ -50,17 +53,5 @@ public class FileManager {
             e.printStackTrace();
         }
 
-    }
-
-    public static void SetDataFile(String outfile, String out) {
-        try {
-            FileWriter myWriter = new FileWriter("../res/f_out/" + outfile + ".txt");
-            myWriter.write(out);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("Error.");
-            e.printStackTrace();
-        }
     }
 }
