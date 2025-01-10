@@ -42,5 +42,4 @@ public class KruskalM {
                 throw new IllegalArgumentException("Le programme nécessite 1 ou 2 arguments.");
         }
     }
-    // TODO : Utilisation de FileManager pour la lecture et l'écriture de fichiers.
 }
