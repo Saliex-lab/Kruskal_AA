@@ -22,7 +22,7 @@ public class FileManager {
 
     public static void GetDataFile(Liste<Integer> graph, String infile) {
         try {
-            File test = new File("res\\f_in\\" + infile+".txt");
+            File test = new File("../res/f_in/" + infile+".txt");
             sc = new Scanner(test);
     
             while (sc.hasNextInt()) {
@@ -44,7 +44,7 @@ public class FileManager {
 
     public static void SetDataFile(String outfile) {
         try {
-            FileWriter myWriter = new FileWriter("res\\f_out\\"+outfile+".txt");
+            FileWriter myWriter = new FileWriter("../res/f_out/"+outfile+".txt");
             myWriter.write(FileManager.sb.toString());
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
