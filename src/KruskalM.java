@@ -22,9 +22,18 @@ public class KruskalM {
                 PPAR = MatriceAdjacence.kruskal();
                 Timer.stop();
                 MatriceAdjacence.printPPAR(PPAR);
+                System.out.println("Temps d'exécution : " + Timer.getElapsedTime() + " ms");
                 break;
 
             case 2:
+                MatriceAdjacence = FileManager.GetDataFile(args[0]);
+                assert MatriceAdjacence != null;
+                String out;
+                Timer.start();
+                PPAR = MatriceAdjacence.kruskal();
+                Timer.stop();
+                out = MatriceAdjacence.printResult(PPAR, Timer.getElapsedTime());
+                FileManager.SetDataFile(args[1], out);
 
                 break;
 

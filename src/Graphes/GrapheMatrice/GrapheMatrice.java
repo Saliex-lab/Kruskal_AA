@@ -47,7 +47,7 @@ public class GrapheMatrice {
         }
         System.out.println("POIDS DE L'ARBRE : " + getPoids(PPAR));
         for (int i = 0; i < PPAR.lenght(); i++) {
-            System.out.println("(" + PPAR.get(i)[0]+1 + " -> " + PPAR.get(i)[1]+1 + " : " + MatriceAdjacence[PPAR.get(i)[0]][PPAR.get(i)[1]] + ")");
+            System.out.println("(" + (PPAR.get(i)[0]+1) + " -> " + (PPAR.get(i)[1]+1) + " : " + MatriceAdjacence[PPAR.get(i)[0]][PPAR.get(i)[1]] + ")");
         }
     }
 
@@ -87,55 +87,71 @@ public class GrapheMatrice {
 
     // Donne l'arête la plus lourde de la liste
     private int[] getAreteLourde(Liste<int[]> liste) throws Exception {
-        int lourd = 0;
+        int[] lourd = liste.get(0);
         for (int i = 1; i < liste.lenght(); i++) {
-            if (MatriceAdjacence[liste.get(i)[0]][liste.get(i)[1]] > MatriceAdjacence[liste.get(lourd)[0]][liste.get(lourd)[1]]) {
-                lourd = i;
+            int[] arete = liste.get(i);
+            if (MatriceAdjacence[arete[0]][arete[1]] > MatriceAdjacence[lourd[0]][lourd[1]]) {
+                lourd[0] = arete[0];
+                lourd[1] = arete[1];
             }
         }
-        return liste.get(lourd);
+        return lourd;
     }
 
     // Retourne la liste sans l'arête lourde
     private Liste<int[]> removeAreteLourde(Liste<int[]> liste, int[] lourd) throws Exception {
-        Liste<int[]> resListe = new Liste<int[]>();
+        Liste<int[]> resListe = new Liste<>();
         for (int k = 0; k < liste.lenght(); k++) {
-            if (liste.get(k) != lourd) {
-                resListe.add(liste.get(k));
+            int[] arete = liste.get(k);
+            if (arete[0] != lourd[0] || arete[1] != lourd[1]) {
+                resListe.add(arete);
             }
         }
         return resListe;
     }
 
     // Cherche un cycle dans la liste du plus petit arbre recouvrant en cours de construction (partie récursive)
-    private Liste<int[]> chercheCycleRec(Liste<int[]> Liste, int sommet, boolean[] visited, int sommetCible, Liste<int[]> cycleListe) throws Exception {
+    private Liste<int[]> chercheCycleRec(Liste<int[]> Liste, int sommet, boolean[] visited, int[] sommetsCibles, Liste<int[]> cycleListe) throws Exception {
         visited[sommet] = true;
-        if (visited[sommetCible]) {
-            cycleListe.add(new int[]{sommet, sommetCible});
+        if (visited[sommetsCibles[1]]) {
+            cycleListe.add(Liste.get(Liste.lenght() - 1));
             return cycleListe;
         }
         for (int i = 0; i < Liste.lenght() - 1; i++) {
             int[] arete = Liste.get(i);
             if (arete[0] == sommet && !visited[arete[1]]) {
                 cycleListe.add(arete);
-                Liste = chercheCycleRec(Liste, arete[1], visited, sommetCible, cycleListe);
+                cycleListe = chercheCycleRec(Liste, arete[1], visited, sommetsCibles, cycleListe);
+                if (cycleListe.lenght() != 0) {
+                    int[] lastArete = cycleListe.get(cycleListe.lenght() - 1);
+                    if (lastArete[0] == sommetsCibles[0] && lastArete[1] == sommetsCibles[1]) {
+                        return cycleListe;
+                    }
+                }
             } else if (arete[1] == sommet && !visited[arete[0]]) {
                 cycleListe.add(arete);
-                Liste = chercheCycleRec(Liste, arete[0], visited, sommetCible, cycleListe);
+                cycleListe = chercheCycleRec(Liste, arete[0], visited, sommetsCibles, cycleListe);
+                if (cycleListe.lenght() != 0) {
+                    int[] lastArete = cycleListe.get(cycleListe.lenght() - 1);
+                    if (lastArete[0] == sommetsCibles[0] && lastArete[1] == sommetsCibles[1]) {
+                        return cycleListe;
+                    }
+                }
             }
         }
         return new Liste<>();
     }
 
     // Cherche un cycle dans la liste du plus petit arbre recouvrant en cours de construction
-    private Liste<int[]> chercheCycle(Liste<int[]> PPAR, int i, int j) throws Exception {
+    private Liste<int[]> chercheCycle(Liste<int[]> PPAR, int[] arete) throws Exception {
         boolean[] visited = new boolean[NmbSommets];
         for (int k = 0; k < NmbSommets; k++) {
             visited[k] = false;
         }
         Liste<int[]> cycleListe = new Liste<>();
-        cycleListe = chercheCycleRec(PPAR, i, visited, j, cycleListe);
-        if (cycleListe.lenght() > 0) {
+        cycleListe = chercheCycleRec(PPAR, arete[0], visited, arete, cycleListe);
+
+        if (cycleListe.lenght() != 0) {
             int[] lourd = getAreteLourde(cycleListe);
             return removeAreteLourde(PPAR, lourd);
         }
@@ -151,8 +167,9 @@ public class GrapheMatrice {
         for (int i = 0; i < NmbSommets; i++) {
             for (int j = i + 1; j < NmbSommets; j++) {
                 if (MatriceAdjacence[i][j] != 0) {
-                    PPAR.add(new int[]{i, j});
-                    PPAR = chercheCycle(PPAR, i, j);
+                    int[] arete = new int[]{i, j};
+                    PPAR.add(arete);
+                    PPAR = chercheCycle(PPAR, arete);
                 }
             }
         }
@@ -166,5 +183,26 @@ public class GrapheMatrice {
         }
         MatriceAdjacence[index1][index2] = value;
         MatriceAdjacence[index2][index1] = value;
+    }
+
+    public String printResult(Liste<int[]> ppar, long elapsedTime) throws Exception {
+        StringBuilder out = new StringBuilder();
+        if (IsConnexe(ppar)) {
+            out.append("LE GRAPHE EST CONNEXE.\n");
+        } else {
+            out.append("LE GRAPHE N'EST PAS CONNEXE.\n");
+        }
+        out.append("POIDS DE L'ARBRE : ").append(getPoids(ppar)).append("\n");
+        for (int i = 0; i < ppar.lenght(); i++) {
+            out.append("(")
+                    .append(ppar.get(i)[0] + 1)
+                    .append(" -> ")
+                    .append(ppar.get(i)[1] + 1)
+                    .append(" : ")
+                    .append(MatriceAdjacence[ppar.get(i)[0]][ppar.get(i)[1]])
+                    .append(")\n");
+        }
+        out.append("TEMPS D'EXÉCUTION : ").append(elapsedTime).append(" MS\n");
+        return out.toString();
     }
 }

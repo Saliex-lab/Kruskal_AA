@@ -88,4 +88,16 @@ public class FileManager {
         }
 
     }
+
+    public static void SetDataFile(String outfile, String out) {
+        try {
+            FileWriter myWriter = new FileWriter("../res/f_out/" + outfile + ".txt");
+            myWriter.write(out);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("Error.");
+            e.printStackTrace();
+        }
+    }
 }
