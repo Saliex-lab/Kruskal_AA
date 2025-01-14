@@ -1,7 +1,7 @@
-package Graphes.GrapheListe;
+package Conteneurs;
 
 public class Edge implements Comparable<Edge> {
-    private Vertex _successor; 
+    private Vertex _successor;
     private int _weight;      
 
     // Constructeur

@@ -1,10 +1,8 @@
-package Graphes.GrapheListe;
-
-import Conteneurs.Liste;
+package Conteneurs;
 
 public class Vertex implements Comparable<Vertex>{
     private int _number;
-    private Liste<Edge> _edges = new Liste<>(); 
+    private Liste<Edge> _edges = new Liste<>();
 
     public Vertex(int number) {
         _number = number;

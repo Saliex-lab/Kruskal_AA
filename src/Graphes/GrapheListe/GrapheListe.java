@@ -1,6 +1,8 @@
 package Graphes.GrapheListe;
+import Conteneurs.Edge;
 import Conteneurs.Liste;
 import Conteneurs.ListeTriable;
+import Conteneurs.Vertex;
 import Utils.FileManager;
 import Utils.Timer;
 
