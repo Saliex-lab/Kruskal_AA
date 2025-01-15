@@ -1,4 +1,6 @@
-package Conteneurs;
+package Conteneurs.Kruskal;
+
+import Conteneurs.Listes.Liste;
 
 public class Vertex implements Comparable<Vertex>{
     private int _number;

@@ -1,4 +1,4 @@
-package Conteneurs;
+package Conteneurs.Listes;
 
 public class ListeTriable<E extends Comparable<E>> extends Liste<E> {
 

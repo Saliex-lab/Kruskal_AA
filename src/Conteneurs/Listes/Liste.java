@@ -1,4 +1,4 @@
-package Conteneurs;
+package Conteneurs.Listes;
 
 public class Liste<E> {
 

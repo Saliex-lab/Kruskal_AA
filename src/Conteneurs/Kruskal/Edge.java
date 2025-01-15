@@ -1,4 +1,4 @@
-package Conteneurs;
+package Conteneurs.Kruskal;
 
 public class Edge implements Comparable<Edge> {
     private Vertex _successor;

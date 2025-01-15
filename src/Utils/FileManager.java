@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import Conteneurs.Liste;
+import Conteneurs.Listes.Liste;
 
 public class FileManager {
 
@@ -22,7 +22,7 @@ public class FileManager {
 
     public static void GetDataFile(Liste<Integer> graph, String infile) {
         try {
-            File test = new File("../res/f_in/" + infile+".txt");
+            File test = new File("../../res/f_in/" + infile+".txt");
             sc = new Scanner(test);
     
             while (sc.hasNextInt()) {

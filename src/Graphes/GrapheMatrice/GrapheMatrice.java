@@ -1,9 +1,9 @@
 package Graphes.GrapheMatrice;
 
-import Conteneurs.Liste;
-import Conteneurs.ListeTriable;
-import Conteneurs.Edge;
-import Conteneurs.Vertex;
+import Conteneurs.Listes.Liste;
+import Conteneurs.Listes.ListeTriable;
+import Conteneurs.Kruskal.Edge;
+import Conteneurs.Kruskal.Vertex;
 import Utils.FileManager;
 import Utils.Timer;
 
